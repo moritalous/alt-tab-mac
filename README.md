@@ -147,6 +147,8 @@ Sources/Switcher.swift      キー入力の監視と切り替えの状態管理
 Sources/SwitcherPanel.swift ウィンドウ一覧パネルの UI
 Sources/WindowManager.swift ウィンドウの列挙・並び替え・前面化
 Info.plist                  アプリバンドルの設定（LSUIElement で Dock 非表示）
+icon/make-icon.swift        アプリアイコンを描画するスクリプト（swift icon/make-icon.swift で PNG 生成）
+icon/AppIcon.icns           生成済みアプリアイコン
 build.sh                    build/AltTabMac.app をビルド
 install.sh                  ビルドして ~/Applications にインストール・起動
 ```

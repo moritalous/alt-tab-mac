@@ -14,6 +14,7 @@ swiftc -O -swift-version 5 \
   -o "$APP/Contents/MacOS/AltTabMac"
 
 cp Info.plist "$APP/Contents/Info.plist"
+cp icon/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 printf 'APPL????' > "$APP/Contents/PkgInfo"
 codesign --force --sign - "$APP" 2>/dev/null
 
