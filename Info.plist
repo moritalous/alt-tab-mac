@@ -6,6 +6,8 @@
     <string>ja</string>
     <key>CFBundleExecutable</key>
     <string>AltTabMac</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
     <string>local.kazuaki.AltTabMac</string>
     <key>CFBundleInfoDictionaryVersion</key>
