@@ -11,6 +11,7 @@ final class SwitcherPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     private let rowHeight: CGFloat = 52
     private let rowGap: CGFloat = 4
     private let maxVisibleRows = 12
+    private let cornerRadius: CGFloat = 16
 
     init() {
         super.init(
@@ -33,9 +34,9 @@ final class SwitcherPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         effect.material = .hudWindow
         effect.blendingMode = .behindWindow
         effect.state = .active
-        effect.wantsLayer = true
-        effect.layer?.cornerRadius = 16
-        effect.layer?.masksToBounds = true
+        // layer.cornerRadius だけだとウィンドウの影が四角いまま描かれ、角の外側に影がはみ出す。
+        // maskImage で形状そのものを伝えると、ぼかしの範囲も影も角丸に沿う。
+        effect.maskImage = Self.roundedMask(radius: cornerRadius)
         contentView = effect
 
         let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("main"))
@@ -93,6 +94,7 @@ final class SwitcherPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
             height: height
         )
         setFrame(rect, display: true)
+        invalidateShadow()
         select(selected)
         orderFrontRegardless()
     }
@@ -107,6 +109,19 @@ final class SwitcherPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         orderOut(nil)
         items = []
         table.reloadData()
+    }
+
+    /// 角丸のマスク画像。中央を伸縮させるので、どのサイズのパネルにも使い回せる。
+    private static func roundedMask(radius: CGFloat) -> NSImage {
+        let edge = radius * 2 + 1
+        let image = NSImage(size: NSSize(width: edge, height: edge), flipped: false) { rect in
+            NSColor.black.setFill()
+            NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius).fill()
+            return true
+        }
+        image.capInsets = NSEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
+        image.resizingMode = .stretch
+        return image
     }
 
     private func screenUnderMouse() -> NSScreen {
